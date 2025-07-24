@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stop-motion"
+version = "0.1.0"
+authors = [
+  { name="Nicholas Tucker", email="nicholas.o.tucker@gmail.com" },
+]
+description = "A simple stop motion app"
+requires-python = ">=3.11"
+dependencies = [
+    "streamlit>=1.24.0",
+    "Pillow>=9.5.0",
+    "imageio[ffmpeg]>=2.31.1",
+]
+
+[tool.setuptools]
+py-modules = ["stop_motion"]

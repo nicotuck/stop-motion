@@ -1,0 +1,11 @@
+build/
+uv.lock
+
+.venv
+venv*
+*.egg-info
+
+*.jpg
+*.png
+
+*.mp4
