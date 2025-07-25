@@ -38,11 +38,15 @@ def generate_video(
     fps = 1000.0 / frame_duration_ms
 
     writer = imageio.get_writer(output_path, fps=fps)
-    for path, duration in zip(image_paths, durations):
+    progress_bar = st.progress(0.0, "Generating video...")
+    n_imgs = len(image_paths)
+    for idx, (path, duration) in enumerate(zip(image_paths, durations)):
+        progress_bar.progress((idx + 1) / n_imgs, f"Generating video... image {idx + 1}/{n_imgs}")
         img = imageio.imread(path)
         num_frames = max(1, duration // frame_duration_ms)
         for _ in range(num_frames):
             writer.append_data(img)
+    progress_bar.empty()
     writer.close()
 
 
