@@ -41,7 +41,9 @@ def generate_video(
     progress_bar = st.progress(0.0, "Generating video...")
     n_imgs = len(image_paths)
     for idx, (path, duration) in enumerate(zip(image_paths, durations)):
-        progress_bar.progress((idx + 1) / n_imgs, f"Generating video... image {idx + 1}/{n_imgs}")
+        progress_bar.progress(
+            (idx + 1) / n_imgs, f"Generating video... image {idx + 1}/{n_imgs}"
+        )
         img = imageio.imread(path)
         num_frames = max(1, duration // frame_duration_ms)
         for _ in range(num_frames):
@@ -76,10 +78,12 @@ def get_selected_indices_and_durations() -> tuple[list[int], list[int]]:
     durations = [st.session_state[f"dur_{i}"] for i in indices]
     return indices, durations
 
+
 def select_all() -> None:
     for i in range(len(image_files)):
         st.session_state[f"use_{i}"] = True
     update_total_duration()
+
 
 def deselect_all() -> None:
     for i in range(len(image_files)):
@@ -110,6 +114,7 @@ def rescale_individual_durations() -> None:
         scale = target_total / current_total
         for i in indices:
             st.session_state[f"dur_{i}"] = int(st.session_state[f"dur_{i}"] * scale)
+
 
 # Initialize total duration on the first run
 if "total_duration" not in st.session_state:
