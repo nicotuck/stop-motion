@@ -154,6 +154,6 @@ if selections:
     if st.button("Generate Video"):
         generate_video(paths, durations, output_path)
         # Rerun to display the new video
-        st.experimental_rerun()
+        st.rerun()
 else:
     st.info("No images selected.")
