@@ -145,20 +145,23 @@ for i, path in enumerate(image_files):
 
 
 # --- VIDEO GENERATION ---
-if selections:
-    paths, durations = zip(*selections)
-    st.success(
-        f"{len(paths)} images selected for a total duration of {sum(durations)} ms."
-    )
+with st.sidebar:
+    if selections:
+        paths, durations = zip(*selections)
+        st.success(
+            f"{len(paths)} images selected for a total duration of {sum(durations)} ms."
+        )
 
-    output_path = "output.mp4"
-    if os.path.exists(output_path):
-        with open(output_path, "rb") as f:
-            st.video(f.read())
+        output_path = "output.mp4"
 
-    if st.button("Generate Video"):
-        generate_video(paths, durations, output_path)
-        # Rerun to display the new video
-        st.rerun()
-else:
-    st.info("No images selected.")
+        if st.button("Generate Video 🎞️"):
+            generate_video(paths, durations, output_path)
+            # Rerun to display the new video
+            st.rerun()
+
+        if os.path.exists(output_path):
+            with open(output_path, "rb") as f:
+                with st.popover("Play video 📽️"):
+                    st.video(f.read())
+    else:
+        st.info("No images selected.")
