@@ -9,7 +9,7 @@ from PIL import Image
 # --- CONFIGURATION ---
 IMAGE_DIR: str = "images"
 THUMB_DIR: str = "thumbs"
-THUMB_SIZE: tuple[int, int] = (250, 250)
+THUMB_SIZE: tuple[int, int] = (400, 400)
 
 os.makedirs(THUMB_DIR, exist_ok=True)
 
