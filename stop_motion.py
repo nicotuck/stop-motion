@@ -76,11 +76,21 @@ def get_selected_indices_and_durations() -> tuple[list[int], list[int]]:
     durations = [st.session_state[f"dur_{i}"] for i in indices]
     return indices, durations
 
+def select_all() -> None:
+    for i in range(len(image_files)):
+        st.session_state[f"use_{i}"] = True
+    update_total_duration()
+
+def deselect_all() -> None:
+    for i in range(len(image_files)):
+        st.session_state[f"use_{i}"] = False
+    update_total_duration()
+
 
 def update_total_duration() -> None:
     """Callback to update the total duration from the sum of individual durations."""
     _, durations = get_selected_indices_and_durations()
-    st.session_state.total_duration = sum(durations)
+    st.session_state.total_duration = max(100, sum(durations))
 
 
 def rescale_individual_durations() -> None:
@@ -101,11 +111,9 @@ def rescale_individual_durations() -> None:
         for i in indices:
             st.session_state[f"dur_{i}"] = int(st.session_state[f"dur_{i}"] * scale)
 
-
 # Initialize total duration on the first run
 if "total_duration" not in st.session_state:
     update_total_duration()
-
 
 # --- SIDEBAR ---
 st.sidebar.header("Controls")
@@ -116,13 +124,15 @@ st.sidebar.number_input(
     key="total_duration",
     on_change=rescale_individual_durations,
 )
+st.sidebar.button("Select All", on_click=select_all)
+st.sidebar.button("Deselect All", on_click=deselect_all)
 
 # --- MAIN UI ---
 st.write("### Select Images and Durations")
 
 selections: list[tuple[str, int]] = []
 for i, path in enumerate(image_files):
-    cols = st.columns([1, 1, 1])
+    cols = st.columns([2, 1, 1])
     with cols[0]:
         st.image(
             make_thumbnail(path),
@@ -156,6 +166,7 @@ with st.sidebar:
 
         if st.button("Generate Video 🎞️"):
             generate_video(paths, durations, output_path)
+            st.toast("Video generation complete! 🎉")
             # Rerun to display the new video
             st.rerun()
 
