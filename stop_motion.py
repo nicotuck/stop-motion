@@ -112,6 +112,7 @@ st.sidebar.header("Controls")
 st.sidebar.number_input(
     "Total video duration (ms)",
     min_value=100,
+    step=500,
     key="total_duration",
     on_change=rescale_individual_durations,
 )
